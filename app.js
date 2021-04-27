@@ -13,7 +13,21 @@ app.set('views','./views');
 app.use(express.static('./public'));
 
 app.get('/', (req, res)=>{
-	res.render('index');
+	let book = {
+		title:'test',
+		pages: 123
+	};
+	res.render('index',{
+		// title: 'H5 ServersideScripting',
+		message: 'Hello World',
+		data:[1,2,3,4,5,6],
+		title: "test",
+		author: 'derp',
+		pages: 123,
+		genre: 'drama',
+		read: true,
+		book: book
+	});
 });
 
 app.listen(port,()=>{

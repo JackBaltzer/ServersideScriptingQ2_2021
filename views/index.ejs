@@ -4,10 +4,34 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title><%=  typeof title != 'undefined' ? title : "Ukendt" %></title>
 	<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 	<h1>Hello World!</h1>
+	
+	<%= message %>
+
+
+
+	<h2><%=  title %></h2>
+	<p>Forfatternavn</p>
+	<p>antal side: 123</p>
+	<p>Genre: drama</p>
+	<p>Læst?</p>
+
+	<% if(typeof book !='undefined'){ %>
+		<%=  book.coverImageName %>
+		<%=  book.title %>
+	<% } %>
+
+	<% if(typeof data != 'undefined' && data.length > 0 )  { %>
+
+		<% data.forEach(element => { %>
+			<h2><%= element %></h2>
+		<% });  %>
+
+	<% } %>
+
 </body>
 </html>
