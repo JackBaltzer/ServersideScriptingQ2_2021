@@ -14,37 +14,18 @@ app.use(express.urlencoded( { extended:true} ));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+
+const mongoose = require("mongoose");
+// starter mongoDb og opretter forbindelsen til databasen, 
+// også selv om variablen 'db' ikke benyttes
+const db = mongoose.connect("mongodb://localhost:27017/ServersideScriptingQ2_2021", {
+   useNewUrlParser: true,
+   useUnifiedTopology: true
+});
+
 app.use(express.static('./public'));
 
-app.get('/', (req, res) => {
-	let book = {
-		title: 'test',
-		author: 'derp',
-		pages: 123,
-		genre: 'drama',
-		read: true,
-	};
-	res.render('index', {
-		title: 'H5 ServersideScripting',
-		message: 'Hello World',
-		data: [1, 2, 3, 4, 5, 6],
-		book
-	});
-});
-
-
-app.get('/books/:bookId', (req, res)=>{
-	
-	res.render('books');
-});
-
-
-app.post('/books/:bookId', (req, res)=>{
-
-	res.render('books',{
-		title : req.body.title
-	});
-});
+require('./routes')(app);
 
 
 

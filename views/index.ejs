@@ -17,10 +17,12 @@
 		</div>
 	<% } %>
 
-	<% if(locals.data && data.length > 0 )  { %>
+	<% if(locals.books)  { %>
+		<h1>All books</h1>
+		<% books.forEach(book => { %>
+			<h3>
+				<a href="/book/<%= book.id %>"><%= book.title %></a></h3>
 
-		<% data.forEach(element => { %>
-			<h2><%= element %></h2>
 		<% });  %>
 
 	<% } %>
