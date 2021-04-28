@@ -1,31 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%=  typeof title != 'undefined' ? title : "Ukendt" %></title>
-	<link rel="stylesheet" href="/style.css">
-</head>
-<body>
+<%- include('template/top.ejs') %>
+
 	<h1>Hello World!</h1>
 	
-	<%= message %>
+	<%= locals.message %>
 
-
-
-	<h2><%=  title %></h2>
-	<p>Forfatternavn</p>
+	<p><a href="/books/x">Forfatternavn</a></p>
 	<p>antal side: 123</p>
 	<p>Genre: drama</p>
 	<p>Læst?</p>
 
-	<% if(typeof book !='undefined'){ %>
-		<%=  book.coverImageName %>
-		<%=  book.title %>
+	<% if(locals.book){ %>
+		<div>
+			<h2>Dette er en bog</h2>
+			<%=  book.coverImageName %>
+			<%=  book.title %>
+		</div>
 	<% } %>
 
-	<% if(typeof data != 'undefined' && data.length > 0 )  { %>
+	<% if(locals.data && data.length > 0 )  { %>
 
 		<% data.forEach(element => { %>
 			<h2><%= element %></h2>
@@ -33,5 +25,4 @@
 
 	<% } %>
 
-</body>
-</html>
+<%- include('template/bottom.ejs') %>
