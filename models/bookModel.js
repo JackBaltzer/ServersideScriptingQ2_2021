@@ -6,6 +6,6 @@ const Book = new Schema({
 	author: {type:String},
 	pages: {type:Number},
 	read: {type:Boolean}
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model("Book", Book, 'books');

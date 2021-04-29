@@ -1,11 +1,54 @@
 <%- include('template/top.ejs') %>
 
-	<form method="post">
-		<p>Title:</p>
-		<input type="text" name="title" value="<%= locals.title %>">
-		<button>Send</button>
-	</form>
 
-	<%= locals.title %>
+	<form method="post">
+		<div>
+			<label>Title:</label>
+			<input type="text" name="title" value="<%= locals.book ? locals.book.title : '' %>">
+		</div>
+		<div>
+			<label>Forfatter:</label>
+			<input type="text" name="author" value="<%= locals.book ? locals.book.author : '' %>">
+		</div>
+		<div>
+			<label>Sider:</label>
+			<input type="text" name="pages" value="<%= locals.book ? locals.book.pages : '' %>">
+		<div>
+		<div>
+			<label>Læst?</label>
+			<input type="checkbox" name="read" <%= locals.book && locals.book.read ? 'checked' : ''%>>
+		</div>
+		<button class="btn">Gem</button><a href="/books" class="btn">Annuller</a>
+
+		<span class="error"><%= locals.message %></span>
+	</form>
+	
+
+
+	<% if(locals.books)  { %>
+		<h1>All books</h1>
+		<table>
+			<tr>
+				<th>Actions</th>
+				<th>Titel</th>
+				<th>Forfatter</th>
+				<th>Sider</th>
+				<th>Læst</th>
+			</tr>
+		<% books.forEach(book => { %>
+				<tr>
+					<td>
+						<a href="/books/edit/<%= book.id %>">[RET]</a>
+						<a href="/books/delete/<%= book.id %>" onclick="return confirm('er du sikker?')">[SLET]</a>
+					</td>
+					<td><%= book.title %></td>
+					<td><%= book.author %></td>
+					<td><%= book.pages %></td>
+					<td><%= book.read ? 'ja' : 'nej' %></td>
+				</tr>
+			<% });  %>
+		</table>	
+	<% } %>
+
 
 <%- include('template/bottom.ejs') %>
