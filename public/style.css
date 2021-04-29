@@ -11,20 +11,24 @@ body {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16px;
 }
 
 
 nav {
 	background: #582;
 	padding: 10px 20px;
-	border:0;
+	border: 0;
 	border-top: 1px solid #000;
 	border-bottom: 2px solid #000;
-
 }
 
 nav a {
 	color: #ddd;
+}
+
+nav a:hover {
+	color: #fff;
 }
 
 a {
@@ -38,7 +42,10 @@ footer {
 	color: #fff;
 }
 
-
+.error {
+	color: #ff7722;
+	font-weight: bold;
+}
 
 main {
 	padding: 10px 20px;
@@ -47,4 +54,57 @@ main {
 
 footer {
 	flex-shrink: 0;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+td,
+th {
+	text-align: left;
+	padding: 5px 10px;
+}
+
+tr:hover {
+	background: #5823;
+}
+
+
+tr:nth-child(even) {
+	background: #5822;
+}
+
+table a:hover {
+	color: #ff7722;
+}
+
+form label {
+	display: inline-block;
+	width: 75px;
+}
+
+form div {
+	margin: 5px 0;
+}
+
+.btn {
+	background: #582;
+	color: #fff;
+	border: 1px solid #000;
+	font-size: 16px;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
+	text-decoration: none;
+	font-weight: normal;
+	margin: 0px;
+	margin-right: 3px;
+	padding: 3px 5px;
+	text-align: center;
+	vertical-align: baseline;
+	cursor: pointer;
+}
+
+.btn:hover {
+	background: #5829;
 }
