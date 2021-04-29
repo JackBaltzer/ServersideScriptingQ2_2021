@@ -1,12 +1,18 @@
 const Book = require('./models/bookModel');
 
+async function getBooks(){
+	return await Book
+						.find()
+						.collation({locale:'da'})
+						.sort({'title':'asc'});
+}
 
 
 module.exports = (app) => {
 
 	app.get('/', async (req, res) => {
 
-		let books = await Book.find();
+		let books = await getBooks();
 
 		let book = {
 			title: 'test',
@@ -34,10 +40,11 @@ module.exports = (app) => {
 
 
 	app.get('/books', async (req, res) => {
-		let books = await Book.find();
+		let books = await getBooks();
+
 		res.render('books', {
-			books,
-			book: new Book()
+			book: new Book(),
+			books
 		});
 	});
 
@@ -68,7 +75,7 @@ module.exports = (app) => {
 			await book.save();
 			res.redirect('/books');
 		} else {
-			let books = await Book.find();
+			let books = await getBooks();
 			res.render('books', {
 				book: req.body,
 				books,
@@ -79,25 +86,45 @@ module.exports = (app) => {
 
 
 	app.get('/books/edit/:id', async (req, res) => {
-		let books = await Book.find();
-		let book = await Book.findById(req.params.id);
-		res.render('books', {
-			books,
-			book
-		});
+		let books = await getBooks();
+
+		try {
+			let book = await Book.findById(req.params.id);
+			if (book != null) {
+
+				res.render('books', {
+					books,
+					book
+				});
+			}
+		} catch (ex) {
+			console.log(ex.message);
+			res.redirect('/books');
+		}
 	});
 
 	app.post('/books/edit/:id', async (req, res) => {
-		let book = await Book.findById(req.params.id);
+		let message = [];
 
-		// validering!!!!
+		if (req.body.title == "") {
+			message.push('Udfyld titel');
+		}
+
+		if (message.length == 0) {
+			req.body.read = (req.body.read == "on" ? true : false);
+			await Book.findByIdAndUpdate(req.params.id, req.body);
+			res.redirect('/books');
+		}else{
+			let books = await getBooks();
+			res.render('books', {
+				book: req.body,
+				books,
+				message: message.join(', ')
+			});
+		}
 
 
-		book.title = req.body.title;
-		book.author = req.body.author;
-		book.pages = parseInt(req.body.pages);
-		book.read = req.body.read == "on" ? true : false;
-		await book.save();
+
 		res.redirect('/books');
 	});
 
