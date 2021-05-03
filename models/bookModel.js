@@ -10,6 +10,9 @@ const Book = new Schema({
 	author: {
 		type: String
 	},
+	imageName: {
+		type: String
+	},
 	pages: {
 		type: Number
 	},
