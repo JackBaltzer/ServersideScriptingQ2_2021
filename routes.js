@@ -1,13 +1,19 @@
 const Book = require('./models/bookModel');
+const fs = require('fs');
 
-async function getBooks(){
+
+async function getBooks() {
 	return await Book
-						.find()
-						.collation({locale:'da'})
-						.sort({'title':'asc'});
+		.find()
+		.collation({
+			locale: 'da'
+		})
+		.sort({
+			'title': 'asc'
+		});
 }
 
- 
+
 module.exports = (app) => {
 
 	app.get('/', async (req, res) => {
@@ -72,6 +78,12 @@ module.exports = (app) => {
 		book.read = (req.body.read == "on" ? true : false);
 
 		if (message.length == 0) {
+
+			if (req.files != undefined && req.files.image != undefined) {
+				await req.files.image.mv(`./public/images/${req.files.image.name}`)
+				book.imageName = req.files.image.name;
+			}
+
 			await book.save();
 			res.redirect('/books');
 		} else {
@@ -111,10 +123,19 @@ module.exports = (app) => {
 		}
 
 		if (message.length == 0) {
+
+			// slet gammelt billede.... 
+			let gammeltBilledeNavn = './public/images/f1200d1e-a1c2.jpg';
+			if(fs.existsSync(gammeltBilledeNavn)){
+				fs.unlinkSync(gammeltBilledeNavn);
+			}
+			req.body.imageName = '';
+
+
 			req.body.read = (req.body.read == "on" ? true : false);
 			await Book.findByIdAndUpdate(req.params.id, req.body);
 			res.redirect('/books');
-		}else{
+		} else {
 			let books = await getBooks();
 			res.render('books', {
 				book: req.body,
@@ -129,8 +150,12 @@ module.exports = (app) => {
 	});
 
 	app.get('/books/delete/:id', async (req, res) => {
+
+
 		await Book.findByIdAndDelete(req.params.id);
 		res.redirect('/books');
+
+		
 	});
 
 };
